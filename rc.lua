@@ -82,8 +82,8 @@ end
 -- {{{ Tags
 -- Define a tag table which will hold all screen tags.
 tags = {
-  names  = { "Main", "Programming", "Games", "Control" },
-  layout = { layouts[2], layouts[2], layouts[1], layouts[2] }
+  names  = { "Main", "Programming", "Social", "Media", "Games", "Work", "Control" },
+  layout = { layouts[2], layouts[2], layouts[2], layouts[2], layouts[1], layouts[2], layouts[2] }
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -228,20 +228,20 @@ clientbuttons = awful.util.table.join(
 -- {{{ Key bindings -----------------------------------------------------------
 globalkeys = awful.util.table.join(
     -- lock
-     awful.key({ modkey, "Shift"  }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
+     awful.key({ modkey,  }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
 
     -- navigate tags
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+    awful.key({ modkey, "Control" }, "Left",   awful.tag.viewprev       ),
+    awful.key({ modkey, "Control" }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     -- change focus between clients
-    awful.key({ modkey, "Shift"   }, "Right",
+    awful.key({ modkey,    }, "Right",
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey, "Shift"   }, "Left",
+    awful.key({ modkey,    }, "Left",
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
@@ -267,12 +267,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
+    --awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact( 0.05)    end),
+    --awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact(-0.05)    end),
+    --awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
+    --awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
+    --awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
+    --Rawful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
@@ -312,7 +312,7 @@ clientkeys = awful.util.table.join(
         end),
 
     -- Move client left and right between tags
-    awful.key({ modkey, "Control"   }, "Left",
+    awful.key({ modkey, "Shift"   }, "Left",
       function (c)
         local curidx = awful.tag.getidx()
         if curidx == 1 then
@@ -321,7 +321,7 @@ clientkeys = awful.util.table.join(
           awful.client.movetotag(tags[client.focus.screen][curidx - 1])
         end
       end),
-    awful.key({ modkey, "Control"   }, "Right",
+    awful.key({ modkey, "Shift"   }, "Right",
       function (c)
         local curidx = awful.tag.getidx()
         if curidx == 9 then
@@ -405,7 +405,7 @@ awful.rules.rules = {
 }
 -- }}}
 
--- {{{ Signals
+-- {{{ Signals ----------------------------------------------------------------
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c, startup)
     -- Enable sloppy focus
